@@ -1,3 +1,4 @@
+#include "ncurses_display.h"
 #include <curses.h>
 #include <chrono>
 #include <string>
@@ -5,7 +6,6 @@
 #include <vector>
 
 #include "format.h"
-#include "ncurses_display.h"
 #include "system.h"
 
 using std::string;
@@ -57,10 +57,10 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
   int row{0};
   int const pid_column{2};
   int const user_column{9};
-  int const cpu_column{16};
-  int const ram_column{26};
-  int const time_column{35};
-  int const command_column{46};
+  int const cpu_column{26};
+  int const ram_column{36};
+  int const time_column{45};
+  int const command_column{56};
   wattron(window, COLOR_PAIR(2));
   mvwprintw(window, ++row, pid_column, "PID");
   mvwprintw(window, row, user_column, "USER");
@@ -94,6 +94,7 @@ void NCursesDisplay::Display(System& system, int n) {
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 
   while (1) {
+    werase(process_window);
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     box(system_window, 0, 0);
